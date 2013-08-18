@@ -41,6 +41,15 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
      */
     startDay: 0,
 
+    /**
+     * @cfg {boolean} optimizeForMobile
+     * If true, the event editor is optimized for mobile clients. This includes the following changes:
+     * - Combo Boxes are made non-editable to prevent the keypad being displayed.
+     * - Numeric input fields are defined with inputType = "numeric" to force the display of the numeric keypad.
+     * The config is passed on to sub-components.
+     */
+    optimizeForMobile: false,
+
     //TODO: implement code to use this config.
     // Maybe use xtypes instead for dynamic loading of custom options?
     // Include secondly/minutely/hourly, plugins for M-W-F, T-Th, weekends
@@ -80,6 +89,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             hideLabel: true,
             width: this.frequencyWidth,
             itemId: this.id + '-frequency',
+            editable: !this.optimizeForMobile,
             
             listeners: {
                 'frequencychange': {
