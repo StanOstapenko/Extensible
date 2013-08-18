@@ -120,14 +120,17 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 startDay: this.startDay
             },{
                 xtype: 'extensible.recurrence-monthly',
-                itemId: this.id + '-monthly'
+                itemId: this.id + '-monthly',
+                optimizeForMobile: this.optimizeForMobile
             },{
                 xtype: 'extensible.recurrence-yearly',
-                itemId: this.id + '-yearly'
+                itemId: this.id + '-yearly',
+                optimizeForMobile: this.optimizeForMobile
             },{
                 xtype: 'extensible.recurrence-duration',
                 itemId: this.id + '-duration',
-                startDay: this.startDay
+                startDay: this.startDay,
+                optimizeForMobile: this.optimizeForMobile
             }]
         }];
         

@@ -52,6 +52,7 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
             maxValue: me.maxValue,
             allowBlank: false,
             enableKeyEvents: true,
+            inputType: 'number',
             listeners: {
                 'change': Ext.bind(me.onIntervalChange, me)
             }

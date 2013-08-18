@@ -6,7 +6,14 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         'Ext.form.field.ComboBox',
         'Extensible.lang.Number'
     ],
-    
+
+    /**
+     * @cfg {boolean} optimizeForMobile
+     * If true, this widget is optimized for mobile clients. The combo box is made non-editable to prevent the
+     * keypad being displayed.
+     */
+    optimizeForMobile: false,
+
     cls: 'extensible-recur-monthly',
     
     nthComboWidth: 150,
@@ -55,6 +62,7 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             forceSelection: true,
             displayField: 'text',
             valueField: 'value',
+            editable: !this.optimizeForMobile,
             store: Ext.create('Ext.data.ArrayStore', {
                 fields: ['text', 'value'],
                 idIndex: 0,

@@ -37,6 +37,16 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
      */
     startDay: 0,
 
+    /**
+     * @cfg {boolean} optimizeForMobile
+     * If true, this widget is optimized for mobile clients. This includes the following changes:
+     * - Combo Boxes are made non-editable to prevent the keypad being displayed.
+     * - Numeric input fields are defined with inputType = "numeric" to force the display of the numeric keypad.
+     * The config is passed on to sub-components.
+     */
+    optimizeForMobile: false,
+
+
     strings: {
         andContinuing: 'and continuing',
         occurrences: 'occurrences',
@@ -82,6 +92,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             width: 85,
             triggerAction: 'all',
             forceSelection: true,
+            editable: !this.optimizeForMobile,
             value: me.strings.forever,
             
             store: [
@@ -125,6 +136,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         return {
             xtype: 'numberfield',
             itemId: me.id + '-duration-num',
+            inputType: 'number',
             value: 5,
             width: 55,
             minValue: me.minOccurrences,
