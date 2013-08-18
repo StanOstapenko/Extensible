@@ -136,7 +136,8 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         return {
             xtype: 'numberfield',
             itemId: me.id + '-duration-num',
-            inputType: 'number',
+            inputType: 'number',     // Mobile devices uses that to determine the type of keypad to display. Number field needs number keypad.
+            inputCls: 'x-form-text', // Needed because EXTJS assigns class x-form-number to input element, which is unknown.
             value: 5,
             width: 55,
             minValue: me.minOccurrences,
