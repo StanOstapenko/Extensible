@@ -346,7 +346,8 @@
      * Helper method that updates the UNTIL portion of a recurring event's RRULE
      * such that the passed end date becomes the new UNTIL value. It handles updating
      * an existing UNTIL value or adding it if needed so that there is only one
-     * unqiue UNTIL value when this method returns.
+     * unqiue UNTIL value when this method returns. If the RRULE has a COUNT value,
+     * it is removed.
      */
     function endDateRecurringSeries($event, $endDate) {
         global $date_format, $rrule_date_format, $mappings;
@@ -355,10 +356,9 @@
         
         $parts = explode(';', $event[$mappings['rrule']]);
         $newRrule = array();
-        $untilFound = false;
-        
+
         foreach ($parts as $part) {
-            if (strrpos($part, 'UNTIL=') === false) {
+            if (strrpos($part, 'UNTIL=') === false && strrpos($part, 'COUNT=') === false) {
                 array_push($newRrule, $part);
             }
         }
@@ -487,7 +487,7 @@
                     // Don't reuse the existing instance id since we're creating a new event:
                     unset($event[$mappings['event_id']]);
                     // Overwrite the instance end date with the master (series) end date:
-                    $event[$mappings['end_date']] = $originalEndDate;
+                    $event = endDateRecurringSeries($event, new DateTime($originalEndDate));
                     // Create the new event (which also persists it). Note that we are NOT calling
                     // addEvent() here, which recalculates the end date for recurring events. In this
                     // case we always want to keep the existing master event end date.
