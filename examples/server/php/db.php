@@ -13,7 +13,7 @@
         }
         
         public function connect() {
-            if (!isset($db)) {
+            if (!isset($this->db)) {
                 $cfg = $this->config;
                 $this->db = new PDO('mysql:host='.$cfg->host.';dbname='.$cfg->dbname, $cfg->username, $cfg->password);
                 $this->db->setAttribute(PDO::ATTR_ERRMODE, $this->error_mode);
@@ -97,17 +97,18 @@
         }
         
         private function save($action, $table, array $values) {
+            /*
             $param_names = array();
             $param_mappings = array();
             $col_mappings = array();
-            
+
             foreach ($values as $col => $value) {
                 $param = ':'.$col;
                 array_push($param_names, $param);
                 $param_mappings[$param] = $value;
                 array_push($col_mappings, $col.'='.$param);
             }
-            
+
             if ($action === 'INSERT') {
                 $cols = implode(',', array_keys($values));
                 $param_list = implode(',', $param_names);
@@ -118,10 +119,59 @@
                 $id = $values['id'];
                 $sql = 'UPDATE '.$table.' SET '.$cols.' WHERE id = '.$id;
             }
-            
+
             $this->connect();
             $query = $this->db->prepare($sql);
             $query->execute($param_mappings);
+            $id = $action == 'INSERT' ? $this->db->lastInsertId() : $id;
+            $result = $this->select($table, $id);
+
+            return $result;
+            */
+
+            $this->connect();
+            if ($action === 'INSERT') {
+                $sql = 'INSERT INTO events (calendar_id,title,start,end,location,notes,url,all_day,reminder,app_id,rrule,duration) ' .
+                    'VALUES (:calendar_id,:title,:start,:end,:location,:notes,:url,:all_day,:reminder,:app_id,:rrule,:duration)';
+                $query = $this->db->prepare($sql);
+                $query->bindParam(':calendar_id', $values['calendar_id'], PDO::PARAM_INT);
+                $query->bindParam(':title', $values['title'], PDO::PARAM_STR);
+                $startDt = gmdate("Y-m-d H:i:s", strtotime(substr($values['start'], 0, 19)));
+                $query->bindParam(':start', $startDt, PDO::PARAM_STR);
+                $endDt = gmdate("Y-m-d H:i:s", strtotime(substr($values['end'], 0, 19)));
+                $query->bindParam(':end', $endDt, PDO::PARAM_STR);
+                $query->bindParam(':location', $values['location'], PDO::PARAM_STR);
+                $query->bindParam(':notes', $values['notes'], PDO::PARAM_STR);
+                $query->bindParam(':url', $values['url'], PDO::PARAM_STR);
+                $query->bindParam(':all_day', $values['all_day'], PDO::PARAM_INT);
+                $query->bindParam(':reminder', $values['reminder'], PDO::PARAM_STR);
+                $query->bindParam(':app_id', $values['app_id'], PDO::PARAM_STR);
+                $query->bindParam(':rrule', $values['rrule'], PDO::PARAM_STR);
+                $query->bindParam(':duration', $values['duration'], PDO::PARAM_INT);
+            }
+            else {
+                $id = $values['id'];
+                $sql = 'UPDATE events SET id=:id,calendar_id=:calendar_id,title=:title,start=:start,end=:end,location=:location,notes=:notes,url=:url,all_day=:all_day,reminder=:reminder,app_id=:app_id,rrule=:rrule,duration=:duration ' .
+                    'WHERE id = :id';
+                $query = $this->db->prepare($sql);
+                $query->bindParam(':id', $values['id'], PDO::PARAM_STR);
+                $query->bindParam(':calendar_id', $values['calendar_id'], PDO::PARAM_INT);
+                $query->bindParam(':title', $values['title'], PDO::PARAM_STR);
+                $startDt = gmdate("Y-m-d H:i:s", strtotime(substr($values['start'], 0, 19)));
+                $query->bindParam(':start', $startDt, PDO::PARAM_STR);
+                $endDt = gmdate("Y-m-d H:i:s", strtotime(substr($values['end'], 0, 19)));
+                $query->bindParam(':end', $endDt, PDO::PARAM_STR);
+                $query->bindParam(':location', $values['location'], PDO::PARAM_STR);
+                $query->bindParam(':notes', $values['notes'], PDO::PARAM_STR);
+                $query->bindParam(':url', $values['url'], PDO::PARAM_STR);
+                $query->bindParam(':all_day', $values['all_day'], PDO::PARAM_INT);
+                $query->bindParam(':reminder', $values['reminder'], PDO::PARAM_STR);
+                $query->bindParam(':app_id', $values['app_id'], PDO::PARAM_STR);
+                $query->bindParam(':rrule', $values['rrule'], PDO::PARAM_STR);
+                $query->bindParam(':duration', $values['duration'], PDO::PARAM_INT);
+            }
+            
+            $query->execute();
             $id = $action == 'INSERT' ? $this->db->lastInsertId() : $id;
             $result = $this->select($table, $id);
             
