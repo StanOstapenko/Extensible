@@ -169,7 +169,8 @@ Ext.define('Extensible.calendar.view.Agenda', {
 
         data[M.StartDate.name] = D.add(today, D.HOUR, now.getHours() + 1);
         data[M.EndDate.name] = D.add(today, D.HOUR, now.getHours() + 2);
-        data[M.IsAllDay.name] = false;
+        // Override, Feb. 27, 2014, sidler@teamup.com: By default create all-day events
+        data[M.IsAllDay.name] = true;
 
         this.body.showEventEditor(data, bt.getEl());
     },
