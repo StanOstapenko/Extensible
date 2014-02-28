@@ -134,7 +134,9 @@ Ext.define('Extensible.form.field.DateRange', {
             xtype: 'datefield',
             id: this.id + '-start-date',
             format: this.dateFormat,
-            width: 100,
+            // OVERRIDE: Save space
+            // width: 100,
+            width: 94,
             startDay: this.startDay,
             listeners: {
                 'change': {
@@ -154,7 +156,9 @@ Ext.define('Extensible.form.field.DateRange', {
             hidden: this.showTimes === false,
             labelWidth: 0,
             hideLabel: true,
-            width: 90,
+            // OVERRIDE: Save space
+            // width: 90,
+            width: 80,
             format: this.timeFormat,
             listeners: {
                 'select': {
@@ -173,7 +177,9 @@ Ext.define('Extensible.form.field.DateRange', {
             id: this.id + '-end-date',
             format: this.dateFormat,
             hideLabel: true,
-            width: 100,
+            // OVERRIDE: Save space
+            // width: 100,
+            width: 94,
             startDay: this.startDay,
             listeners: {
                 'change': {
@@ -193,7 +199,9 @@ Ext.define('Extensible.form.field.DateRange', {
             hidden: this.showTimes === false,
             labelWidth: 0,
             hideLabel: true,
-            width: 90,
+            // OVERRIDE: Save space
+            // width: 100,
+            width: 80,
             format: this.timeFormat,
             listeners: {
                 'select': {
