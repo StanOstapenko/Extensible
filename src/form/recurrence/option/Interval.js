@@ -52,6 +52,8 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
             maxValue: me.maxValue,
             allowBlank: false,
             enableKeyEvents: true,
+            inputType: 'number', // Mobile devices uses that to determine the type of keypad to display. Number field needs number keypad.
+            inputCls: 'x-form-text', // Needed because EXTJS assigns class x-form-number to input element, which is unknown.
             listeners: {
                 'change': Ext.bind(me.onIntervalChange, me)
             }
