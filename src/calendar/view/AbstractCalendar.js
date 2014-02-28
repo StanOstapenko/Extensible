@@ -579,7 +579,9 @@ viewConfig: {
         });
 
         // currently the context menu only contains CRUD actions so do not show it if read-only
-        if (this.enableContextMenus && this.readOnly !== true) {
+        // Override: July 7, 2013, gsi
+        // Teamup Calendar added functionality to the context menu. Do not disable it for read-only calendars.
+        if (this.enableContextMenus) {
             this.el.on('contextmenu', this.onContextMenu, this);
         }
 
