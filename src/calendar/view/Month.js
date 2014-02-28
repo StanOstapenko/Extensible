@@ -584,7 +584,9 @@ Ext.define('Extensible.calendar.view.Month', {
                 dt = parts[parts.length-1];
                     
                 //this.fireEvent('dayclick', this, Ext.Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
-                this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
+                // Overwrite 28. Feb. 2014, sidler@teamup.com: Make new events all-day by default.
+                //this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
+                this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt)));
                 return;
             }
         }
